@@ -45,6 +45,8 @@ const NewPaste = () => {
   const passwordProtectionChecked = watch("passwordProtection");
   const descToggle = watch("descToggle");
 
+  const burnReadDesc = watch("burnAfterRead");
+
   if (all.loggedIn[0] === true) {
     return (
       <div>
@@ -164,6 +166,14 @@ const NewPaste = () => {
                       >
                         Burn After Read
                       </label>
+                      <br />
+                      {burnReadDesc ? (
+                        <span className="text-danger">
+                          Note that reading it will delete it instantly!
+                        </span>
+                      ) : (
+                        <span></span>
+                      )}
                     </div>
                     <div className="mb-3 form-check">
                       <input
