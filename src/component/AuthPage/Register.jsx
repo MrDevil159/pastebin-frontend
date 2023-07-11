@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 import axios from "axios";
 
@@ -23,6 +26,7 @@ const Register = () => {
         navigate("/");
       } catch (error) {
         console.error(error.response.data);
+        toast.error(error.response.data.error);
         navigate("/Register");
       }
     }
@@ -30,6 +34,7 @@ const Register = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
+      <ToastContainer theme="dark" />
       <form
         className="bg-dark text-white p-5 shadow-lg rounded"
         style={{ width: "400px" }}
@@ -75,6 +80,7 @@ const Register = () => {
           <button type="submit" className="btn btn-primary">
             Register
           </button>
+          <span className="text-center">Already have an account? </span>
           <Link to="/" className="btn btn-primary">
             Sign In
           </Link>

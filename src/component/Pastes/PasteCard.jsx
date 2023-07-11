@@ -4,7 +4,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
 
-const PasteCard = () => {
+const PasteCard = ({ title, id }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const PasteCard = () => {
             className="fw-medium text-truncate"
             style={{ maxWidth: "250px" }}
           >
-            Special title treatment that might be longer than expected
+            {title}
           </span>
           {isMobile ? (
             <div className="dropdown">
@@ -43,7 +43,7 @@ const PasteCard = () => {
               </button>
               <ul className="dropdown-menu" aria-labelledby="pasteCardDropdown">
                 <li>
-                  <Link to="#" className="dropdown-item">
+                  <Link to={`ReadPaste/${id}`} className="dropdown-item">
                     <VisibilityIcon /> View
                   </Link>
                 </li>
@@ -61,7 +61,10 @@ const PasteCard = () => {
             </div>
           ) : (
             <div>
-              <Link to="ReadPaste" className="btn btn-sm btn-secondary me-1">
+              <Link
+                to={`ReadPaste/${id}`}
+                className="btn btn-sm btn-secondary me-1"
+              >
                 <VisibilityIcon />
               </Link>
               <Link to="#" className="btn btn-sm btn-secondary me-1">

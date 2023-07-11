@@ -1,7 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const NavBar = () => {
+  const navigate = useNavigate();
+  const { all } = useContext(AuthContext);
+  const logout = () => {
+    if (all.handleLogout()) {
+      console.log("loggedout");
+      toast("Logging Out! Please Wait", {
+        position: "top-right",
+        autoClose: 2100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        all.loggedIn[1](false);
+        navigate("/");
+      }, 3000);
+    }
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -43,22 +66,22 @@ const NavBar = () => {
                 </li>
                 <li>
                   <Link className="dropdown-item" to="#">
-                    Edit Profile
+                    Dummy
                   </Link>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <a className="dropdown-item" onClick={() => logout()}>
                     Logout
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#" target="_blank">
-                Welcome Back, <strong>Name</strong>
+              <Link className="nav-link">
+                Welcome Back, <strong>{all.username[0]}</strong>
               </Link>
             </li>
           </ul>

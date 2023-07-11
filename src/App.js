@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./component/Layout";
 import "./App.css";
@@ -13,11 +13,15 @@ import ReadPaste from "./component/Pastes/ReadPaste";
 
 function App() {
   const { all } = useContext(AuthContext);
+  useEffect(() => {
+    all.checkToken();
+  }, []);
   if (all.loggedIn[0] === false) {
     return (
       <Routes>
         <Route index path="/" element={<Login />}></Route>
         <Route path="Register" element={<Register />}></Route>
+        <Route path="ReadPaste/:id" element={<ReadPaste />}></Route>
       </Routes>
     );
   } else if (all.loggedIn[0] === true) {
@@ -27,7 +31,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<UserHome />}></Route>
             <Route path="NewPaste" element={<NewPaste />}></Route>
-            <Route path="ReadPaste" element={<ReadPaste />}></Route>
+            <Route path="ReadPaste/:id" element={<ReadPaste />}></Route>
           </Route>
         </Routes>
       );

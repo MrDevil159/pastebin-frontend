@@ -1,15 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
   const { all } = useContext(AuthContext);
   const { register, handleSubmit } = useForm();
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (all.checkToken()) {
+      navigate("/");
+    }
+  }, []);
   const decodeToken = (token) => {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -39,12 +46,16 @@ const Login = () => {
         navigate("/");
       } catch (error) {
         console.error(error.response.data);
+
+        toast.error(error.response.data.message);
+
         navigate("/");
       }
     }
   };
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
+      <ToastContainer theme="dark" />
       <form
         className="bg-dark text-white p-5 shadow-lg rounded"
         style={{ width: "400px" }}
@@ -79,6 +90,8 @@ const Login = () => {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
+          <span className="text-center">Don't have an account? </span>
+
           <Link to="/Register" className="btn btn-primary">
             Sign Up
           </Link>
